@@ -8,6 +8,12 @@ mode="${1:-}"
 context="${HERDR_PLUGIN_CONTEXT_JSON:-}"
 [ -n "$context" ] || context="{}"
 
+# Keep the last invocation's context for debugging what herdr passed.
+if [ -n "${HERDR_PLUGIN_STATE_DIR:-}" ]; then
+  mkdir -p "$HERDR_PLUGIN_STATE_DIR"
+  printf '%s\n' "$context" >"$HERDR_PLUGIN_STATE_DIR/last-context.json" 2>/dev/null || true
+fi
+
 field() {
   printf '%s' "$context" | jq -r --arg key "$1" '.[$key] // empty'
 }
