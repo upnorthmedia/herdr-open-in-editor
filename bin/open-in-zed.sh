@@ -111,6 +111,11 @@ case "$mode" in
   selection | link)
     if [ "$mode" = selection ]; then
       raw="$(field selected_text)"
+      # Keybindings don't receive the selection, but herdr copies selected
+      # text to the clipboard (ui.copy_on_select, on by default).
+      if [ -z "$raw" ] && command -v pbpaste >/dev/null 2>&1; then
+        raw="$(pbpaste 2>/dev/null | head -c 4096)"
+      fi
     else
       raw="${HERDR_PLUGIN_CLICKED_URL:-$(field clicked_url)}"
       # Editor deep links: vscode://file/<abs path>[:line[:col]]
