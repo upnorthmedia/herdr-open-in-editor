@@ -207,7 +207,7 @@ case "$mode" in
     fi
     ;;
   *)
-    echo "usage: open-in-zed.sh workspace|pane|selection|link" >&2
+    echo "usage: open-in-editor.sh workspace|pane|selection|link" >&2
     exit 2
     ;;
 esac
