@@ -12,38 +12,38 @@ platforms = ["macos"]
 
 [[actions]]
 id = "open-workspace"
-title = "Open in Zed"
-description = "Open this workspace's folder in Zed."
+title = "Open in editor"
+description = "Open this workspace's folder in your editor."
 contexts = ["workspace"]
-command = ["bash", "bin/open-in-zed.sh", "workspace"]
+command = ["bash", "bin/open-in-editor.sh", "workspace"]
 
 # Opens the folder the focused pane's shell or agent is in.
 [[actions]]
 id = "open-pane-folder"
-title = "Open folder in Zed"
-description = "Open the focused pane's working directory in Zed."
+title = "Open folder in editor"
+description = "Open the focused pane's working directory in your editor."
 contexts = ["pane"]
-command = ["bash", "bin/open-in-zed.sh", "pane"]
+command = ["bash", "bin/open-in-editor.sh", "pane"]
 
 # Opens a path an agent printed, after you double-click or drag-select it.
 # Accepts src/app.ts, ./a/b.tsx:12, /abs/path:12:3, path#L12, Read(src/x.ts).
 [[actions]]
 id = "open-selection"
-title = "Open in Zed"
-description = "Open the selected file or folder path in Zed, at its line if one is given."
+title = "Open in editor"
+description = "Open the selected file or folder path in your editor, at its line if one is given."
 contexts = ["selection"]
-command = ["bash", "bin/open-in-zed.sh", "selection"]
+command = ["bash", "bin/open-in-editor.sh", "selection"]
 
 # Target of the link handlers below; not shown in menus.
 [[actions]]
 id = "open-link"
-title = "Open link in Zed"
-command = ["bash", "bin/open-in-zed.sh", "link"]
+title = "Open link in editor"
+command = ["bash", "bin/open-in-editor.sh", "link"]
 
 # Ctrl+click a file:// hyperlink.
 [[link_handlers]]
 id = "file-url"
-title = "Open in Zed"
+title = "Open in editor"
 pattern = "^file://"
 action = "open-link"
 
@@ -51,6 +51,6 @@ action = "open-link"
 # some agents emit for file citations.
 [[link_handlers]]
 id = "editor-file-url"
-title = "Open in Zed"
+title = "Open in editor"
 pattern = "^(vscode|vscode-insiders|cursor|windsurf)://file/"
 action = "open-link"
