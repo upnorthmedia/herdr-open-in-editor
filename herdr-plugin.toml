@@ -2,10 +2,14 @@ id = "open-in-zed"
 name = "Open in Zed"
 version = "0.1.0"
 description = "Open workspace folders, pane folders, and selected file paths in the Zed editor."
+# 0.9.0 is the first release that routes OSC 8 file:// clicks to link handlers.
 min_herdr_version = "0.9.0"
 platforms = ["macos"]
 
-# Right-click a workspace in the sidebar.
+# herdr doesn't show plugin actions in its right-click menus yet, so these are
+# run from keybindings (see README). The contexts say where each action
+# belongs if menus start listing them.
+
 [[actions]]
 id = "open-workspace"
 title = "Open in Zed"
@@ -13,7 +17,7 @@ description = "Open this workspace's folder in Zed."
 contexts = ["workspace"]
 command = ["bash", "bin/open-in-zed.sh", "workspace"]
 
-# Right-click a pane: opens the folder the pane's shell or agent is in.
+# Opens the folder the focused pane's shell or agent is in.
 [[actions]]
 id = "open-pane-folder"
 title = "Open folder in Zed"
@@ -21,7 +25,7 @@ description = "Open the focused pane's working directory in Zed."
 contexts = ["pane"]
 command = ["bash", "bin/open-in-zed.sh", "pane"]
 
-# Select a path an agent printed (double-click or drag), then right-click.
+# Opens a path an agent printed, after you double-click or drag-select it.
 # Accepts src/app.ts, ./a/b.tsx:12, /abs/path:12:3, path#L12, Read(src/x.ts).
 [[actions]]
 id = "open-selection"

@@ -34,8 +34,10 @@ zed_cli() {
   fi
 }
 
+# Percent-decodes a URL path. "+" stays literal (it only means space in form
+# data), and backslashes are escaped so printf %b decodes nothing else.
 url_decode() {
-  local encoded="${1//+/ }"
+  local encoded="${1//\\/\\\\}"
   printf '%b' "${encoded//%/\\x}"
 }
 
@@ -57,6 +59,7 @@ parse_target() {
   text="$(printf '%s' "$text" | sed -E 's/^[[`"'"'"'(<]+//; s/[]`"'"'"')>,;.]+$//')"
 
   case "$text" in
+    file://localhost/*) text="$(url_decode "${text#file://localhost}")" ;;
     file://*) text="$(url_decode "${text#file://}")" ;;
   esac
 
@@ -85,8 +88,10 @@ parse_target() {
 resolve_path() {
   local path="$1" base
   if [[ "$path" == /* ]]; then
-    [ -e "$path" ] && printf '%s' "$path"
-    return
+    if [ -e "$path" ]; then
+      printf '%s' "$path"
+    fi
+    return 0
   fi
   for base in "$(field focused_pane_cwd)" "$(field workspace_cwd)"; do
     if [ -n "$base" ] && [ -e "$base/$path" ]; then
