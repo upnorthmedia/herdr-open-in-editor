@@ -59,6 +59,7 @@ editor_label() {
     vscode) printf 'VS Code' ;;
     cursor) printf 'Cursor' ;;
     sublime) printf 'Sublime Text' ;;
+    android-studio) printf 'Android Studio' ;;
   esac
 }
 
@@ -72,6 +73,7 @@ find_cli() {
     vscode) name=code bundle="Visual Studio Code.app/Contents/Resources/app/bin/code" ;;
     cursor) name=cursor bundle="Cursor.app/Contents/Resources/app/bin/cursor" ;;
     sublime) name=subl bundle="Sublime Text.app/Contents/SharedSupport/bin/subl" ;;
+    android-studio) name=studio bundle="Android Studio.app/Contents/MacOS/studio" ;;
     *) return 0 ;;
   esac
   if command -v "$name" >/dev/null 2>&1; then
@@ -226,7 +228,7 @@ fi
 editor="$(unquote "$(config editor)")"
 if [ -z "$editor" ] || [ "$editor" = auto ]; then
   editor=default
-  for candidate in zed cursor vscode sublime; do
+  for candidate in zed cursor vscode sublime android-studio; do
     if [ -n "$(find_cli "$candidate")" ]; then
       editor="$candidate"
       break
@@ -235,7 +237,7 @@ if [ -z "$editor" ] || [ "$editor" = auto ]; then
 fi
 
 case "$editor" in
-  zed | vscode | cursor | sublime)
+  zed | vscode | cursor | sublime | android-studio)
     cli="$(unquote "$(config editor_cli)")"
     [ -n "$cli" ] || cli="$(find_cli "$editor")"
     if [ -z "$cli" ] || [ ! -x "$cli" ]; then
@@ -246,6 +248,9 @@ case "$editor" in
     # VS Code and Cursor read a :line:col suffix only with --goto.
     if [ -n "$line" ] && { [ "$editor" = vscode ] || [ "$editor" = cursor ]; }; then
       "$cli" --goto "$location"
+    elif [ "$editor" = android-studio ]; then
+      # JetBrains launchers take the line and column as flags, not a suffix.
+      "$cli" ${line:+--line "$line"} ${col:+--column "$col"} "$target"
     else
       "$cli" "$location"
     fi
@@ -276,7 +281,7 @@ case "$editor" in
     "${argv[@]}"
     ;;
   *)
-    notify "Unknown editor \"$editor\" in $config_file. Use zed, vscode, cursor, sublime, default, or custom."
+    notify "Unknown editor \"$editor\" in $config_file. Use zed, vscode, cursor, sublime, android-studio, default, or custom."
     exit 0
     ;;
 esac
