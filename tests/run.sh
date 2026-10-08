@@ -136,6 +136,20 @@ configure "editor = sublime" "editor_cli = $tmp/bin/editor"
 run selection "$(ctx 'src/app.ts:5')"
 expect "sublime takes a :line suffix" "$repo/src/app.ts:5"
 
+configure "editor = android-studio" "editor_cli = $tmp/bin/editor"
+run selection "$(ctx 'src/app.ts:12:3')"
+expect "android-studio passes --line and --column" "--line
+12
+--column
+3
+$repo/src/app.ts"
+run selection "$(ctx 'src/app.ts:12')"
+expect "android-studio passes --line alone" "--line
+12
+$repo/src/app.ts"
+run workspace "$(ctx)"
+expect "android-studio opens a folder without flags" "$repo"
+
 configure "editor = zed" "editor_cli = $tmp/bin/editor"
 run workspace "$(ctx)"
 run selection "$(ctx 'src:5')"
@@ -161,7 +175,7 @@ expect "custom without a command notifies" "<editor not run: notification show O
 
 configure "editor = notepad"
 run workspace "$(ctx)"
-expect "unknown editor notifies" "<editor not run: notification show Open in Editor --body Unknown editor \"notepad\" in $tmp/config/editor.conf. Use zed, vscode, cursor, sublime, default, or custom.>"
+expect "unknown editor notifies" "<editor not run: notification show Open in Editor --body Unknown editor \"notepad\" in $tmp/config/editor.conf. Use zed, vscode, cursor, sublime, android-studio, default, or custom.>"
 
 configure "editor = vscode" "editor_cli = $tmp/missing"
 run workspace "$(ctx)"

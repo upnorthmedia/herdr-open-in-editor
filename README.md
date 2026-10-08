@@ -1,6 +1,6 @@
 # Open in Editor
 
-A [herdr](https://herdr.dev) plugin that opens file paths your coding agent prints, or the whole workspace, in Zed, VS Code, Cursor, or Sublime Text, at the exact line.
+A [herdr](https://herdr.dev) plugin that opens file paths your coding agent prints, or the whole workspace, in Zed, VS Code, Cursor, Sublime Text, or Android Studio, at the exact line.
 
 When Claude, Codex, or any other pane prints `src/app.ts:42`, double-click it and press one key. The file opens in your editor at line 42. Another key opens the workspace's folder as a project. There's no picker and nothing to type.
 
@@ -56,7 +56,7 @@ Ctrl+click on a `file://` link or an editor deep link (`vscode://file/...`, `cur
 
 ## Choose your editor
 
-With no configuration, the plugin uses the first editor it finds, in this order: Zed, Cursor, VS Code, Sublime Text. If none is installed, it uses the macOS default app for the file. It looks for each editor's command-line tool on `PATH`, then inside the app in `/Applications` or `~/Applications`, so you don't need to install the shell command first.
+With no configuration, the plugin uses the first editor it finds, in this order: Zed, Cursor, VS Code, Sublime Text, Android Studio. If none is installed, it uses the macOS default app for the file. It looks for each editor's command-line tool on `PATH`, then inside the app in `/Applications` or `~/Applications`, so you don't need to install the shell command first.
 
 To pick one, create `editor.conf` in the plugin's config directory:
 
@@ -73,6 +73,7 @@ The setting takes effect on the next keypress.
 | `vscode` | Visual Studio Code |
 | `cursor` | Cursor |
 | `sublime` | Sublime Text |
+| `android-studio` | Android Studio |
 | `default` | The macOS default app for the file type; folders open in Finder; no line numbers |
 | `custom` | The command in `editor_command` |
 

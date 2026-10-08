@@ -1,7 +1,7 @@
 id = "open-in-editor"
 name = "Open in Editor"
 version = "0.2.0"
-description = "Open file paths your agent prints, or the whole workspace, in Zed, VS Code, Cursor, or Sublime Text at the exact line."
+description = "Open file paths your agent prints, or the whole workspace, in Zed, VS Code, Cursor, Sublime Text, or Android Studio at the exact line."
 # 0.9.0 is the first release that routes OSC 8 file:// clicks to link handlers.
 min_herdr_version = "0.9.0"
 platforms = ["macos"]
